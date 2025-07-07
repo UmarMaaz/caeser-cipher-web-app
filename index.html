@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caesar Cipher Visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">🔐</div>
+        <h1>Caesar Cipher Visualizer</h1>
+      </div>
+      <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+        <div class="toggle-icon">
+          <div class="sun-moon"></div>
+        </div>
+      </button>
+    </header>
+
+    <main>
+      <section class="sender-section">
+        <div class="panel sender-panel">
+          <h2>Sender</h2>
+          <div class="input-group">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Enter your message here..."></textarea>
+          </div>
+          <div class="input-group key-input-group">
+            <label for="key">Encryption Key</label>
+            <div class="key-controls">
+              <button id="decreaseKey" class="key-btn" aria-label="Decrease key">-</button>
+              <input type="number" id="key" min="1" max="25" value="3">
+              <button id="increaseKey" class="key-btn" aria-label="Increase key">+</button>
+            </div>
+            <div class="key-slider-container">
+              <input type="range" id="keySlider" min="1" max="25" value="3" class="key-slider">
+              <div class="key-markers">
+                <span>1</span>
+                <span>5</span>
+                <span>10</span>
+                <span>15</span>
+                <span>20</span>
+                <span>25</span>
+              </div>
+            </div>
+          </div>
+          <button id="encryptBtn" class="primary-btn">
+            <span class="btn-icon">🔒</span>
+            <span>Encrypt & Send</span>
+          </button>
+        </div>
+
+        <div class="cipher-visualizer">
+          <h3>Encryption Process</h3>
+          <div class="alphabet-container">
+            <div class="alphabet original">
+              <h4>Original</h4>
+              <div class="alphabet-row" id="originalAlphabet"></div>
+            </div>
+            <div class="shift-arrow">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4V20M12 20L6 14M12 20L18 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="shift-value">Shift: <span id="shiftDisplay">3</span></span>
+            </div>
+            <div class="alphabet shifted">
+              <h4>Shifted</h4>
+              <div class="alphabet-row" id="shiftedAlphabet"></div>
+            </div>
+          </div>
+          <div class="encryption-preview">
+            <div class="preview-container">
+              <div id="encryptionPreview"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="message-transport">
+        <div class="transport-path">
+          <div class="transport-line"></div>
+          <div id="messageBubble" class="message-bubble">
+            <div class="message-paper">
+              <div class="paper-content" id="paperContent"></div>
+              <div class="paper-fold"></div>
+            </div>
+            <div class="bubble-particles">
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+              <div class="particle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="receiver-section">
+        <div class="panel receiver-panel">
+          <h2>Receiver</h2>
+          <div id="waitingMessage" class="waiting-state">
+            <div class="waiting-animation">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <p>Waiting for message...</p>
+          </div>
+
+          <div id="receivedContent" class="received-content">
+            <div class="result-group">
+              <h3>
+                <span class="result-icon">🔒</span>
+                Encrypted Message
+              </h3>
+              <div id="encryptedMessage" class="result-text encrypted-text"></div>
+            </div>
+
+            <div class="decryption-process">
+              <h3>Decryption Process</h3>
+              <div class="process-animation" id="decryptionProcess"></div>
+            </div>
+
+            <div class="result-group">
+              <h3>
+                <span class="result-icon">🔓</span>
+                Decrypted Message
+              </h3>
+              <div id="decryptedMessage" class="result-text decrypted-text"></div>
+            </div>
+
+            <div class="key-info">
+              <div class="key-badge">
+                <span class="key-label">Key used:</span>
+                <span id="keyUsed" class="key-value">3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="actions">
+      <button id="resetBtn" class="secondary-btn">
+        <span class="btn-icon">↺</span>
+        <span>Reset</span>
+      </button>
+    </div>
+
+    <div class="encryption-legend">
+      <h3>How Caesar Cipher Works</h3>
+      <p>Each letter in the alphabet is shifted forward by the key value. Non-letter characters remain unchanged.</p>
+      <div class="legend-example">
+        <div class="example-item">
+          <span class="example-label">A</span>
+          <span class="example-arrow">→</span>
+          <span class="example-result" id="exampleA">D</span>
+        </div>
+        <div class="example-item">
+          <span class="example-label">Z</span>
+          <span class="example-arrow">→</span>
+          <span class="example-result" id="exampleZ">C</span>
+        </div>
+        <div class="example-item">
+          <span class="example-label">hello</span>
+          <span class="example-arrow">→</span>
+          <span class="example-result" id="exampleHello">khoor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
